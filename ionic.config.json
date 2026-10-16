@@ -1,0 +1,7 @@
+{
+  "name": "SwiftLoad",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
