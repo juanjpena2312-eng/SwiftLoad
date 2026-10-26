@@ -9,7 +9,13 @@
   <div class="rest-header" *ngIf="restaurante; else cabCategoria">
     <div class="rest-foto">
       <ion-icon name="storefront-outline"></ion-icon>
-      <img *ngIf="restaurante.imagen" [src]="urlImg(restaurante.imagen)" [alt]="restaurante.nombre" (error)="ocultarImagen($event)" />
+
+      <img
+        *ngIf="restaurante.imagen"
+        [src]="obtenerImagenRestaurante(restaurante)"
+        [alt]="restaurante.nombre"
+        (error)="ocultarImagen($event)"
+      />
     </div>
 
     <div class="rest-info">
@@ -18,11 +24,23 @@
       <div class="meta">
         <span class="nota">
           <ion-icon name="star"></ion-icon>
-          {{ restaurante.total_resenas > 0 ? (restaurante.calificacion | number:'1.1-1') : 'Nuevo' }}
-          <small *ngIf="restaurante.total_resenas > 0">({{ restaurante.total_resenas }})</small>
+          {{ restaurante.total_resenas > 0
+            ? (restaurante.calificacion | number:'1.1-1')
+            : 'Nuevo' }}
+          <small *ngIf="restaurante.total_resenas > 0">
+            ({{ restaurante.total_resenas }})
+          </small>
         </span>
-        <span><ion-icon name="time-outline"></ion-icon> {{ restaurante.tiempo_min }} min</span>
-        <span><ion-icon name="bicycle-outline"></ion-icon> {{ restaurante.costo_envio | currency:'USD':'symbol':'1.2-2' }}</span>
+
+        <span>
+          <ion-icon name="time-outline"></ion-icon>
+          {{ restaurante.tiempo_min }} min
+        </span>
+
+        <span>
+          <ion-icon name="bicycle-outline"></ion-icon>
+          {{ restaurante.costo_envio | currency:'USD':'symbol':'1.2-2' }}
+        </span>
       </div>
     </div>
 
@@ -32,9 +50,13 @@
     </div>
   </div>
 
-  <!-- Cabecera de categoría (cuando no hay restaurante) -->
+  <!-- Cabecera de categoría -->
   <ng-template #cabCategoria>
-    <div class="cat-header" *ngIf="categoria" [style.--cat-color]="categoria.color">
+    <div
+      class="cat-header"
+      *ngIf="categoria"
+      [style.--cat-color]="categoria.color"
+    >
       <div class="cat-icon">
         <ion-icon [name]="categoria.icono"></ion-icon>
       </div>
@@ -54,24 +76,40 @@
   <p *ngIf="cargando" class="estado">Cargando...</p>
   <p *ngIf="error" class="error-message">{{ error }}</p>
 
-  <div *ngIf="!cargando && !error && productos.length === 0" class="vacio">
+  <div
+    *ngIf="!cargando && !error && productos.length === 0"
+    class="vacio"
+  >
     <ion-icon name="alert-circle-outline"></ion-icon>
     <h3>Aún no hay productos</h3>
     <p>Todavía no hay productos disponibles aquí.</p>
   </div>
 
-  <!-- Productos -->
-  <div class="lista" *ngIf="!cargando">
-    <article class="producto" *ngFor="let p of productos" [style.--cat-color]="categoria?.color">
-
+  <!-- Lista de productos -->
+  <div class="lista" *ngIf="!cargando && !error">
+    <article
+      class="producto"
+      *ngFor="let p of productos"
+      [style.--cat-color]="categoria?.color"
+    >
       <div class="producto-foto">
         <ion-icon [name]="categoria?.icono || 'cube-outline'"></ion-icon>
-        <img *ngIf="p.imagen" [src]="urlImg(p.imagen)" [alt]="p.nombre" (error)="ocultarImagen($event)" />
+
+        <img
+          *ngIf="p.imagen"
+          [src]="obtenerImagenProducto(p.imagen)"
+          [alt]="p.nombre"
+          (error)="ocultarImagen($event)"
+        />
       </div>
 
       <div class="producto-info">
         <h3>{{ p.nombre }}</h3>
-        <span class="precio">{{ p.precio | currency:'USD':'symbol':'1.2-2' }}</span>
+
+        <span class="precio">
+          {{ p.precio | currency:'USD':'symbol':'1.2-2' }}
+        </span>
+
         <span class="stock" [class.agotado]="p.stock === 0">
           {{ p.stock > 0 ? p.stock + ' disponibles' : 'Agotado' }}
         </span>
@@ -82,13 +120,14 @@
         shape="round"
         size="small"
         [disabled]="p.stock === 0"
-        (click)="agregar.emit(p)">
+        (click)="agregar.emit(p)"
+      >
         <ion-icon slot="icon-only" name="add-outline"></ion-icon>
       </ion-button>
     </article>
   </div>
 
-  <!-- Reseñas (solo si estamos dentro de un restaurante) -->
+  <!-- Reseñas del restaurante -->
   <div class="resenas" *ngIf="restaurante && !cargando">
     <h3 class="resenas-titulo">Reseñas</h3>
 
@@ -100,8 +139,11 @@
           type="button"
           *ngFor="let n of estrellas"
           (click)="elegirEstrellas(n)"
-          [attr.aria-label]="n + ' estrellas'">
-          <ion-icon [name]="n <= nuevaCalificacion ? 'star' : 'star-outline'"></ion-icon>
+          [attr.aria-label]="n + ' estrellas'"
+        >
+          <ion-icon
+            [name]="n <= nuevaCalificacion ? 'star' : 'star-outline'"
+          ></ion-icon>
         </button>
       </div>
 
@@ -110,24 +152,39 @@
         name="comentario"
         maxlength="300"
         rows="2"
-        placeholder="Escribe un comentario (opcional)"></textarea>
+        placeholder="Escribe un comentario (opcional)"
+      ></textarea>
 
-      <p *ngIf="errorResena" class="error-message">{{ errorResena }}</p>
+      <p *ngIf="errorResena" class="error-message">
+        {{ errorResena }}
+      </p>
 
-      <ion-button expand="block" shape="round" class="primary-button" (click)="publicar()">
+      <ion-button
+        expand="block"
+        shape="round"
+        class="primary-button"
+        (click)="publicar()"
+      >
         Publicar reseña
       </ion-button>
     </div>
 
-    <p *ngIf="resenas.length === 0" class="estado">Todavía no hay reseñas. ¡Sé el primero!</p>
+    <p *ngIf="resenas.length === 0" class="estado">
+      Todavía no hay reseñas. ¡Sé el primero!
+    </p>
 
     <article class="resena" *ngFor="let r of resenas">
       <div class="resena-cabecera">
         <strong>{{ r.usuario }}</strong>
+
         <span class="estrellas">
-          <ion-icon *ngFor="let n of estrellas" [name]="n <= r.calificacion ? 'star' : 'star-outline'"></ion-icon>
+          <ion-icon
+            *ngFor="let n of estrellas"
+            [name]="n <= r.calificacion ? 'star' : 'star-outline'"
+          ></ion-icon>
         </span>
       </div>
+
       <p *ngIf="r.comentario">{{ r.comentario }}</p>
       <small>{{ r.creado_en | date:'dd/MM/yyyy' }}</small>
     </article>

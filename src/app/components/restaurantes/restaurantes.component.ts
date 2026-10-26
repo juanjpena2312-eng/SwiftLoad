@@ -2,19 +2,15 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonIcon } from '@ionic/angular';
 import { addIcons } from 'ionicons';
-import {
-  arrowBackOutline, star, timeOutline, bicycleOutline, storefrontOutline,
-  alertCircleOutline, fastFoodOutline, pizzaOutline, flameOutline,
-  fishOutline, leafOutline, iceCreamOutline,
-} from 'ionicons/icons';
-import { Restaurante, Subcategoria, urlImg } from '../../services/categorias.service';
+import { timeOutline, star, bicycleOutline, storefrontOutline, arrowBackOutline } from 'ionicons/icons';
+import { Restaurante, Subcategoria } from '../../services/categorias.service';
 
 @Component({
   selector: 'app-restaurantes',
   standalone: true,
   imports: [CommonModule, IonIcon],
   templateUrl: './restaurantes.component.html',
-  styleUrls: ['./restaurantes.component.scss'],
+  styleUrls: ['./restaurantes.component.scss']
 })
 export class RestaurantesComponent {
   @Input() subcategoria: Subcategoria | null = null;
@@ -25,17 +21,53 @@ export class RestaurantesComponent {
   @Output() volver = new EventEmitter<void>();
   @Output() seleccionar = new EventEmitter<Restaurante>();
 
-  urlImg = urlImg;
+  imagenPredeterminada = 'assets/Restaurantes/kfc.png';
 
   constructor() {
     addIcons({
-      arrowBackOutline, star, timeOutline, bicycleOutline, storefrontOutline,
-      alertCircleOutline, fastFoodOutline, pizzaOutline, flameOutline,
-      fishOutline, leafOutline, iceCreamOutline,
+      timeOutline,
+      star,
+      bicycleOutline,
+      storefrontOutline,
+      arrowBackOutline
     });
   }
 
-  ocultarImagen(evento: Event) {
-    (evento.target as HTMLImageElement).style.display = 'none';
+  volverAtras() {
+    this.volver.emit();
+  }
+
+  seleccionarRestaurante(restaurante: Restaurante) {
+    this.seleccionar.emit(restaurante);
+  }
+
+  trackById(index: number, item: Restaurante): number {
+    return item.id;
+  }
+
+  obtenerImagen(restaurante: Restaurante): string {
+    const imagen = restaurante?.imagen;
+
+    if (!imagen || !imagen.trim()) {
+      return this.imagenPredeterminada;
+    }
+
+    const nombre = imagen.trim();
+
+    if (nombre.startsWith('/assets/')) {
+      return nombre.substring(1);
+    }
+
+    if (nombre.startsWith('assets/')) {
+      return nombre;
+    }
+
+    return `assets/Restaurantes/${nombre.replace(/^\/+/, '')}`;
+  }
+
+  ocultarImagen(evento: Event): void {
+    const elemento = evento.target as HTMLImageElement;
+    elemento.onerror = null;
+    elemento.src = this.imagenPredeterminada;
   }
 }

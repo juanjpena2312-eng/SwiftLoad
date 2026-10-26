@@ -1,154 +1,266 @@
-:host { display: block; }
 
-.rest-page { padding: 20px 16px 32px; }
-
-.back-button {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  background: var(--sl-blue-soft, #eaf1ff);
-  border: none;
-  padding: 8px 14px;
-  border-radius: 999px;
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
-  color: var(--sl-blue, #1557f6);
+:host {
+  display: block;
+  min-height: 100%;
+  background: #f7f8fc;
+  color: #202336;
 }
 
-.sub-header {
-  --sub-color: #ff5a1f;
+.restaurantes-page {
+  min-height: 100%;
+}
+
+.encabezado {
   display: flex;
   align-items: center;
   gap: 14px;
-  margin: 18px 0 20px;
-
-  h2 { margin: 0; font-size: 22px; font-weight: 800; color: var(--sl-ink, #0f1b3d); }
-  p  { margin: 2px 0 0; font-size: 13px; color: var(--sl-muted, #5b6785); }
+  padding: 22px 18px;
+  background: #ffffff;
+  border-bottom: 1px solid #eceef4;
 }
 
-.sub-icon {
-  width: 52px;
-  height: 52px;
-  border-radius: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 26px;
-  color: #fff;
-  background: var(--sub-color);
-}
-
-.estado { text-align: center; color: var(--sl-muted, #5b6785); }
-
-.error-message {
-  padding: 10px 14px;
-  border-radius: 12px;
-  font-size: 13px;
-  font-weight: 600;
-  color: #c2410c;
-  background: #fff1eb;
-  border: 1px solid #ffd2bd;
-}
-
-.vacio {
-  text-align: center;
-  padding: 36px 0;
-  color: var(--sl-muted, #5b6785);
-
-  ion-icon { font-size: 44px; color: var(--sl-blue, #1557f6); }
-}
-
-.lista {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.rest-card {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  width: 100%;
-  padding: 14px;
-  text-align: left;
-  cursor: pointer;
-  border-radius: 20px;
-  border: 1px solid var(--sl-border, #e1e8f8);
-  background: #fff;
-  box-shadow: 0 6px 18px rgba(15, 27, 61, 0.06);
-  transition: transform 0.2s;
-
-  &:active { transform: scale(0.98); }
-}
-
-.rest-foto {
-  position: relative;
-  width: 76px;
-  height: 76px;
+.boton-volver {
+  width: 44px;
+  height: 44px;
   flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  border: none;
+  border-radius: 14px;
+  background: #fff0e9;
+  color: #ed642b;
+  cursor: pointer;
+
+  ion-icon {
+    font-size: 23px;
+  }
+}
+
+.titulo {
+  min-width: 0;
+
+  h1 {
+    margin: 0;
+    font-size: 23px;
+    font-weight: 800;
+  }
+
+  p {
+    margin: 5px 0 0;
+    color: #85899a;
+    font-size: 14px;
+  }
+}
+
+.contenido {
+  padding: 20px 16px 32px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.lista-restaurantes {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.tarjeta-restaurante {
+  min-width: 0;
   overflow: hidden;
-  border-radius: 18px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 32px;
-  color: var(--sl-blue, #1557f6);
-  background: var(--sl-blue-soft, #eaf1ff);
+  background: #ffffff;
+  border: 1px solid #eceef4;
+  border-radius: 20px;
+  box-shadow: 0 5px 18px rgb(25 35 70 / 5%);
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgb(25 35 70 / 10%);
+  }
+
+  &:focus-visible {
+    outline: 3px solid #ed642b;
+    outline-offset: 3px;
+  }
+}
+
+.contenedor-imagen {
+  position: relative;
+  height: 155px;
+  overflow: hidden;
+  background: #f0f1f5;
 
   img {
-    position: absolute;
-    inset: 0;
     width: 100%;
     height: 100%;
+    display: block;
     object-fit: cover;
+    object-position: center;
   }
 }
 
-.rest-info {
-  flex: 1;
-  min-width: 0;
+.etiqueta-tiempo {
+  position: absolute;
+  right: 9px;
+  bottom: 9px;
   display: flex;
-  flex-direction: column;
-  gap: 3px;
+  align-items: center;
+  gap: 5px;
+  padding: 7px 9px;
+  border-radius: 10px;
+  background: #ffffff;
+  color: #33364a;
+  font-size: 12px;
+  font-weight: 700;
+
+  ion-icon {
+    color: #ed642b;
+    font-size: 15px;
+  }
 }
 
-.fila-titulo {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 8px;
+.informacion {
+  padding: 13px;
 
-  h3 {
-    margin: 0;
+  h2 {
+    margin: 0 0 9px;
     font-size: 16px;
-    font-weight: 700;
-    line-height: 1.25;
-    color: var(--sl-ink, #0f1b3d);
+    font-weight: 800;
+    line-height: 1.35;
+    overflow-wrap: anywhere;
   }
 }
 
-.nota {
-  display: inline-flex;
+.detalles {
+  display: flex;
   align-items: center;
-  gap: 3px;
-  flex-shrink: 0;
-  font-size: 13px;
-  font-weight: 800;
-  color: var(--sl-ink, #0f1b3d);
-
-  ion-icon { color: #f59e0b; }
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-bottom: 12px;
+  font-size: 12px;
 }
 
-.dato {
+.calificacion {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  font-size: 13px;
-  color: var(--sl-muted, #5b6785);
+  gap: 4px;
+  color: #35374a;
+  font-weight: 800;
+
+  ion-icon {
+    color: #ffb52e;
+    font-size: 16px;
+  }
 }
 
 .resenas {
+  color: #898da0;
+}
+
+.envio {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: #686d80;
   font-size: 12px;
-  color: var(--sl-muted, #5b6785);
+
+  ion-icon {
+    flex-shrink: 0;
+    color: #ed642b;
+    font-size: 18px;
+  }
+}
+
+.boton-ver {
+  width: 100%;
+  margin-top: 13px;
+  padding: 11px 8px;
+  border: none;
+  border-radius: 11px;
+  background: #ed642b;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s ease;
+
+  &:hover {
+    background: #d9511d;
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+}
+
+.estado,
+.sin-resultados,
+.mensaje-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  text-align: center;
+  color: #777c90;
+
+  ion-icon {
+    font-size: 42px;
+  }
+
+  h2 {
+    color: #35374a;
+    font-size: 20px;
+  }
+}
+
+.spinner {
+  width: 35px;
+  height: 35px;
+  margin: 0 auto;
+  border: 4px solid #f0d9cf;
+  border-top-color: #ed642b;
+  border-radius: 50%;
+  animation: girar 0.8s linear infinite;
+}
+
+.mensaje-error ion-icon {
+  color: #d94841;
+}
+
+@keyframes girar {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 380px) {
+  .contenido {
+    padding: 14px 10px 25px;
+  }
+
+  .lista-restaurantes {
+    grid-template-columns: 1fr;
+  }
+
+  .contenedor-imagen {
+    height: 180px;
+  }
+}
+
+@media (min-width: 700px) {
+  .lista-restaurantes {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .contenedor-imagen {
+    height: 175px;
+  }
+}
+
+@media (min-width: 1050px) {
+  .lista-restaurantes {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
 }

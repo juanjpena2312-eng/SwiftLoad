@@ -1,64 +1,109 @@
-<section class="rest-page">
+<div class="restaurantes-page">
 
-  <button class="back-button" type="button" (click)="volver.emit()">
-    <ion-icon name="arrow-back-outline"></ion-icon>
-    Volver
-  </button>
-
-  <div class="sub-header" *ngIf="subcategoria" [style.--sub-color]="subcategoria.color">
-    <div class="sub-icon">
-      <ion-icon [name]="subcategoria.icono"></ion-icon>
-    </div>
-    <div>
-      <h2>{{ subcategoria.nombre }}</h2>
-      <p>{{ restaurantes.length }} restaurantes</p>
-    </div>
-  </div>
-
-  <p *ngIf="cargando" class="estado">Cargando restaurantes...</p>
-  <p *ngIf="error" class="error-message">{{ error }}</p>
-
-  <div *ngIf="!cargando && !error && restaurantes.length === 0" class="vacio">
-    <ion-icon name="alert-circle-outline"></ion-icon>
-    <h3>Aún no hay restaurantes</h3>
-  </div>
-
-  <div class="lista" *ngIf="!cargando">
+  <header class="encabezado">
     <button
-      class="rest-card"
+      class="boton-volver"
       type="button"
-      *ngFor="let r of restaurantes"
-      (click)="seleccionar.emit(r)">
+      (click)="volverAtras()"
+      aria-label="Volver"
+    >
+      <ion-icon name="arrow-back-outline"></ion-icon>
+    </button>
 
-      <div class="rest-foto">
-        <ion-icon name="storefront-outline"></ion-icon>
-        <img *ngIf="r.imagen" [src]="urlImg(r.imagen)" [alt]="r.nombre" (error)="ocultarImagen($event)" />
-      </div>
+    <div class="titulo">
+      <h1>Restaurantes</h1>
+      <p>{{ subcategoria?.nombre || 'Descubre dónde pedir' }}</p>
+    </div>
+  </header>
 
-      <div class="rest-info">
-        <div class="fila-titulo">
-          <h3>{{ r.nombre }}</h3>
-          <span class="nota">
-            <ion-icon name="star"></ion-icon>
-            {{ r.total_resenas > 0 ? (r.calificacion | number:'1.1-1') : 'Nuevo' }}
-          </span>
+  <div class="contenido">
+
+    <!-- Cargando -->
+    <div class="estado" *ngIf="cargando">
+      <div class="spinner"></div>
+      <p>Cargando restaurantes...</p>
+    </div>
+
+    <!-- Error -->
+    <div class="mensaje-error" *ngIf="!cargando && error">
+      <ion-icon name="alert-circle-outline"></ion-icon>
+      <p>{{ error }}</p>
+      <button type="button" (click)="volverAtras()">Volver</button>
+    </div>
+
+    <!-- Lista vacía -->
+    <div
+      class="sin-resultados"
+      *ngIf="!cargando && !error && restaurantes.length === 0"
+    >
+      <ion-icon name="storefront-outline"></ion-icon>
+      <h2>No hay restaurantes</h2>
+      <p>No encontramos restaurantes en esta categoría.</p>
+    </div>
+
+    <!-- Lista de restaurantes -->
+    <div
+      class="lista-restaurantes"
+      *ngIf="!cargando && !error && restaurantes.length > 0"
+    >
+      <article
+        class="tarjeta-restaurante"
+        *ngFor="let restaurante of restaurantes; trackBy: trackById"
+        (click)="seleccionarRestaurante(restaurante)"
+        (keydown.enter)="seleccionarRestaurante(restaurante)"
+        tabindex="0"
+        role="button"
+      >
+
+        <!-- Imagen y tiempo -->
+        <div class="contenedor-imagen">
+  <img
+    [src]="obtenerImagen(restaurante)"
+    [alt]="restaurante.nombre"
+    loading="lazy"
+    (error)="ocultarImagen($event)"
+  />
+
+  <span class="etiqueta-tiempo">
+    <ion-icon name="time-outline"></ion-icon>
+    {{ restaurante.tiempo_min }} min
+  </span>
+</div>
+
+        <!-- Información -->
+        <div class="informacion">
+          <h2>{{ restaurante.nombre }}</h2>
+
+          <div class="detalles">
+            <span class="calificacion">
+              <ion-icon name="star"></ion-icon>
+              {{ restaurante.calificacion }}
+            </span>
+
+            <span class="resenas">
+              ({{ restaurante.total_resenas }} reseñas)
+            </span>
+          </div>
+
+          <div class="envio">
+            <ion-icon name="bicycle-outline"></ion-icon>
+            <span>
+              Envío:
+              {{ restaurante.costo_envio | currency:'USD':'symbol':'1.2-2' }}
+            </span>
+          </div>
+
+          <button
+            type="button"
+            class="boton-ver"
+            (click)="seleccionarRestaurante(restaurante); $event.stopPropagation()"
+          >
+            Ver menú
+          </button>
         </div>
 
-        <span class="dato">
-          <ion-icon name="time-outline"></ion-icon>
-          Recibes en {{ r.tiempo_min }} min
-        </span>
+      </article>
+    </div>
 
-        <span class="dato">
-          <ion-icon name="bicycle-outline"></ion-icon>
-          Envío {{ r.costo_envio | currency:'USD':'symbol':'1.2-2' }}
-        </span>
-
-        <span class="resenas" *ngIf="r.total_resenas > 0">
-          {{ r.total_resenas }} {{ r.total_resenas === 1 ? 'reseña' : 'reseñas' }}
-        </span>
-      </div>
-    </button>
   </div>
-
-</section>
+</div>

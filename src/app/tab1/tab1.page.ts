@@ -33,7 +33,7 @@ type Origen = 'inicio' | 'subcategorias' | 'restaurantes';
     CommonModule,
     IonHeader, IonToolbar, IonButton, IonContent,
     WelcomeComponent, LoginComponent, RegistrarComponent, HomeComponent,
-    SubcategoriasComponent, RestaurantesComponent, ProductosComponent,
+    SubcategoriasComponent, RestaurantesComponent, ProductosComponent, 
   ],
 })
 export class Tab1Page implements OnInit {

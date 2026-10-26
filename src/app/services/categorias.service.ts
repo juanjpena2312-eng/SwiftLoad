@@ -1,15 +1,12 @@
+
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
+
 import { Categoria } from '../components/category-card/category-card.component';
 
 const BASE = 'http://localhost:3000';
 const API = `${BASE}/api`;
-
-// Convierte '/img/pizza.jpg' en 'http://localhost:3000/img/pizza.jpg'
-export function urlImg(ruta?: string | null): string {
-  return ruta ? `${BASE}${ruta}` : '';
-}
 
 export interface Producto {
   id: number;
@@ -45,47 +42,69 @@ export interface Resena {
   usuario: string;
 }
 
-@Injectable({ providedIn: 'root' })
+@Injectable({
+  providedIn: 'root'
+})
 export class CategoriasService {
   constructor(private http: HttpClient) {}
 
   obtenerCategorias(): Promise<Categoria[]> {
-    return firstValueFrom(this.http.get<Categoria[]>(`${API}/categorias`));
+    return firstValueFrom(
+      this.http.get<Categoria[]>(`${API}/categorias`)
+    );
   }
 
-  obtenerSubcategorias(categoriaId: number): Promise<Subcategoria[]> {
+  obtenerSubcategorias(
+    categoriaId: number
+  ): Promise<Subcategoria[]> {
     return firstValueFrom(
-      this.http.get<Subcategoria[]>(`${API}/categorias/${categoriaId}/subcategorias`)
+      this.http.get<Subcategoria[]>(
+        `${API}/categorias/${categoriaId}/subcategorias`
+      )
     );
   }
 
   obtenerProductos(categoriaId: number): Promise<Producto[]> {
     return firstValueFrom(
-      this.http.get<Producto[]>(`${API}/categorias/${categoriaId}/productos`)
+      this.http.get<Producto[]>(
+        `${API}/categorias/${categoriaId}/productos`
+      )
     );
   }
 
-  obtenerProductosSubcategoria(subcategoriaId: number): Promise<Producto[]> {
+  obtenerProductosSubcategoria(
+    subcategoriaId: number
+  ): Promise<Producto[]> {
     return firstValueFrom(
-      this.http.get<Producto[]>(`${API}/subcategorias/${subcategoriaId}/productos`)
+      this.http.get<Producto[]>(
+        `${API}/subcategorias/${subcategoriaId}/productos`
+      )
     );
   }
 
-  obtenerRestaurantes(subcategoriaId: number): Promise<Restaurante[]> {
+  obtenerRestaurantes(
+    subcategoriaId: number
+  ): Promise<Restaurante[]> {
     return firstValueFrom(
-      this.http.get<Restaurante[]>(`${API}/subcategorias/${subcategoriaId}/restaurantes`)
+      this.http.get<Restaurante[]>(
+        `${API}/subcategorias/${subcategoriaId}/restaurantes`
+      )
     );
   }
 
   obtenerMenu(restauranteId: number): Promise<Producto[]> {
     return firstValueFrom(
-      this.http.get<Producto[]>(`${API}/restaurantes/${restauranteId}/productos`)
+      this.http.get<Producto[]>(
+        `${API}/restaurantes/${restauranteId}/productos`
+      )
     );
   }
 
   obtenerResenas(restauranteId: number): Promise<Resena[]> {
     return firstValueFrom(
-      this.http.get<Resena[]>(`${API}/restaurantes/${restauranteId}/resenas`)
+      this.http.get<Resena[]>(
+        `${API}/restaurantes/${restauranteId}/resenas`
+      )
     );
   }
 
@@ -93,14 +112,17 @@ export class CategoriasService {
     restauranteId: number,
     usuarioId: number,
     calificacion: number,
-    comentario: string,
-  ) {
+    comentario: string
+  ): Promise<unknown> {
     return firstValueFrom(
-      this.http.post(`${API}/restaurantes/${restauranteId}/resenas`, {
-        usuario_id: usuarioId,
-        calificacion,
-        comentario,
-      })
+      this.http.post(
+        `${API}/restaurantes/${restauranteId}/resenas`,
+        {
+          usuario_id: usuarioId,
+          calificacion,
+          comentario
+        }
+      )
     );
   }
 }
