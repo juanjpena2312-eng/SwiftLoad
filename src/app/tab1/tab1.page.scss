@@ -1,0 +1,17 @@
+.swiftload-content {
+  --background: var(--sl-bg);
+}
+
+.app-header ion-toolbar {
+  --background: #ffffff;
+  --border-width: 0;
+  --padding-start: 16px;
+  --padding-end: 8px;
+  box-shadow: 0 2px 14px rgba(15, 27, 61, 0.06);
+}
+
+.header-logo {
+  height: 34px;
+  width: auto;
+  display: block;
+}

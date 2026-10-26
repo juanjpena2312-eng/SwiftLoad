@@ -1,0 +1,19 @@
+<ion-card
+  button="true"
+  class="category-card"
+  [style.--cat-color]="categoria.color"
+  (click)="seleccionar.emit(categoria)">
+  <ion-card-content>
+    <div class="category-icon">
+      <ion-icon [name]="categoria.icono"></ion-icon>
+    </div>
+
+    <h3>{{ categoria.nombre }}</h3>
+    <p>{{ categoria.descripcion }}</p>
+
+    <div class="category-footer">
+      <span>Explorar</span>
+      <ion-icon name="arrow-back-outline" class="category-arrow"></ion-icon>
+    </div>
+  </ion-card-content>
+</ion-card>

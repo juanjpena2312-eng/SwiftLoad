@@ -1,0 +1,63 @@
+<section class="auth-page">
+  <div class="auth-container">
+
+    <button class="back-button" type="button" (click)="volver.emit()">
+      <ion-icon name="arrow-back-outline"></ion-icon>
+      Volver
+    </button>
+
+    <div class="auth-logo">
+      <img src="assets/logo-icono.png" alt="SwiftLoad" />
+    </div>
+
+    <p class="eyebrow">QUÉ BUENO VERTE</p>
+    <h1>Inicia sesión</h1>
+    <p class="auth-description">
+      Ingresa a tu cuenta para continuar con tus envíos.
+    </p>
+
+    <form (ngSubmit)="enviar()">
+      <div class="form-field">
+        <ion-label>Correo electrónico</ion-label>
+        <ion-item lines="none" class="input-item">
+          <ion-icon slot="start" name="mail-outline"></ion-icon>
+          <ion-input
+            type="email"
+            name="correoLogin"
+            [(ngModel)]="correo"
+            placeholder="tucorreo@ejemplo.com"
+            autocomplete="email"
+            required>
+          </ion-input>
+        </ion-item>
+      </div>
+
+      <div class="form-field">
+        <ion-label>Contraseña</ion-label>
+        <ion-item lines="none" class="input-item">
+          <ion-icon slot="start" name="lock-closed-outline"></ion-icon>
+          <ion-input
+            type="password"
+            name="contrasenaLogin"
+            [(ngModel)]="contrasena"
+            placeholder="Ingresa tu contraseña"
+            autocomplete="current-password"
+            required>
+          </ion-input>
+        </ion-item>
+      </div>
+
+      <p *ngIf="mensajeError" class="error-message">{{ mensajeError }}</p>
+
+      <ion-button type="submit" expand="block" shape="round" class="primary-button auth-submit">
+        Iniciar sesión
+        <ion-icon slot="end" name="log-in-outline"></ion-icon>
+      </ion-button>
+    </form>
+
+    <div class="auth-switch">
+      ¿Todavía no tienes cuenta?
+      <button type="button" (click)="irARegistro.emit()">Regístrate</button>
+    </div>
+  </div>
+</section>

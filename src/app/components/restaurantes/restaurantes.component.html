@@ -1,0 +1,64 @@
+<section class="rest-page">
+
+  <button class="back-button" type="button" (click)="volver.emit()">
+    <ion-icon name="arrow-back-outline"></ion-icon>
+    Volver
+  </button>
+
+  <div class="sub-header" *ngIf="subcategoria" [style.--sub-color]="subcategoria.color">
+    <div class="sub-icon">
+      <ion-icon [name]="subcategoria.icono"></ion-icon>
+    </div>
+    <div>
+      <h2>{{ subcategoria.nombre }}</h2>
+      <p>{{ restaurantes.length }} restaurantes</p>
+    </div>
+  </div>
+
+  <p *ngIf="cargando" class="estado">Cargando restaurantes...</p>
+  <p *ngIf="error" class="error-message">{{ error }}</p>
+
+  <div *ngIf="!cargando && !error && restaurantes.length === 0" class="vacio">
+    <ion-icon name="alert-circle-outline"></ion-icon>
+    <h3>Aún no hay restaurantes</h3>
+  </div>
+
+  <div class="lista" *ngIf="!cargando">
+    <button
+      class="rest-card"
+      type="button"
+      *ngFor="let r of restaurantes"
+      (click)="seleccionar.emit(r)">
+
+      <div class="rest-foto">
+        <ion-icon name="storefront-outline"></ion-icon>
+        <img *ngIf="r.imagen" [src]="urlImg(r.imagen)" [alt]="r.nombre" (error)="ocultarImagen($event)" />
+      </div>
+
+      <div class="rest-info">
+        <div class="fila-titulo">
+          <h3>{{ r.nombre }}</h3>
+          <span class="nota">
+            <ion-icon name="star"></ion-icon>
+            {{ r.total_resenas > 0 ? (r.calificacion | number:'1.1-1') : 'Nuevo' }}
+          </span>
+        </div>
+
+        <span class="dato">
+          <ion-icon name="time-outline"></ion-icon>
+          Recibes en {{ r.tiempo_min }} min
+        </span>
+
+        <span class="dato">
+          <ion-icon name="bicycle-outline"></ion-icon>
+          Envío {{ r.costo_envio | currency:'USD':'symbol':'1.2-2' }}
+        </span>
+
+        <span class="resenas" *ngIf="r.total_resenas > 0">
+          {{ r.total_resenas }} {{ r.total_resenas === 1 ? 'reseña' : 'reseñas' }}
+        </span>
+      </div>
+    </button>
+  </div>
+
+</section>

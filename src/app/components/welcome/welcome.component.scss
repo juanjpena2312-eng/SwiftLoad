@@ -1,0 +1,111 @@
+:host { display: block; }
+
+.welcome-page {
+  position: relative;
+  min-height: 100%;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  padding: 32px 24px 40px;
+  background: linear-gradient(180deg, #ffffff 0%, var(--sl-bg) 100%);
+}
+
+.welcome-glow {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.35;
+  pointer-events: none;
+}
+.glow-one { width: 240px; height: 240px; top: -80px; right: -70px; background: var(--sl-blue); }
+.glow-two { width: 200px; height: 200px; bottom: -60px; left: -60px; background: var(--sl-orange); opacity: 0.22; }
+
+.welcome-content {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 420px;
+  text-align: center;
+}
+
+.welcome-logo {
+  width: 84px;
+  height: 84px;
+  margin: 0 auto 18px;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: var(--sl-shadow);
+
+  img { width: 100%; height: 100%; object-fit: cover; display: block; }
+}
+
+.welcome-description {
+  margin: 8px 0 24px;
+  color: var(--sl-muted);
+  line-height: 1.6;
+}
+
+.welcome-illustration {
+  position: relative;
+  width: 250px;
+  height: 250px;
+  margin: 0 auto 28px;
+}
+
+.orbit {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  border: 1.5px dashed rgba(21, 87, 246, 0.3);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+.orbit-one { width: 165px; height: 165px; }
+.orbit-two { width: 240px; height: 240px; border-color: rgba(255, 90, 31, 0.3); }
+
+.package {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 90px;
+  height: 90px;
+  transform: translate(-50%, -50%);
+  border-radius: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 44px;
+  color: #fff;
+  background: linear-gradient(135deg, #1557f6, #0b3fc4);
+  box-shadow: 0 16px 34px rgba(21, 87, 246, 0.4);
+}
+
+.floating-icon {
+  position: absolute;
+  width: 46px;
+  height: 46px;
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 23px;
+  background: #fff;
+  color: var(--sl-orange);
+  box-shadow: 0 8px 20px rgba(15, 27, 61, 0.14);
+  animation: flotar 3s ease-in-out infinite;
+}
+.floating-location { top: 12px; right: 16px; }
+.floating-plane { bottom: 16px; left: 10px; color: var(--sl-blue); animation-delay: 1.2s; }
+
+@keyframes flotar {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+.forward-icon { transform: rotate(180deg); }
+
+.bottom-note {
+  margin-top: 16px;
+  font-size: 13px;
+  color: var(--sl-muted);
+}

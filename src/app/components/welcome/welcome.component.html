@@ -1,0 +1,47 @@
+<section class="welcome-page">
+  <div class="welcome-glow glow-one"></div>
+  <div class="welcome-glow glow-two"></div>
+
+  <div class="welcome-content">
+    <div class="welcome-logo">
+       <img src="assets/logo-icono.png" alt="SwiftLoad" />
+      <ion-icon name="rocket-outline"></ion-icon>
+    </div>
+  
+    <p class="eyebrow">TU ENVÍO, MÁS CERCA</p>
+
+    <h1>
+      Bienvenido a
+      <span>SwiftLoad</span>
+    </h1>
+
+    <p class="welcome-description">
+      Conectamos tus paquetes con su destino.
+      Consulta tus envíos de forma sencilla, rápida y segura.
+    </p>
+
+    <div class="welcome-illustration">
+      <div class="orbit orbit-one"></div>
+      <div class="orbit orbit-two"></div>
+
+      <div class="package package-main">
+        <ion-icon name="cube-outline"></ion-icon>
+      </div>
+
+      <div class="floating-icon floating-location">
+        <ion-icon name="location-outline"></ion-icon>
+      </div>
+
+      <div class="floating-icon floating-plane">
+        <ion-icon name="airplane-outline"></ion-icon>
+      </div>
+    </div>
+
+    <ion-button expand="block" shape="round" class="primary-button" (click)="comenzar.emit()">
+      Comenzar
+      <ion-icon slot="end" name="arrow-back-outline" class="forward-icon"></ion-icon>
+    </ion-button>
+
+    <p class="bottom-note">Tus envíos, siempre en movimiento.</p>
+  </div>
+</section>

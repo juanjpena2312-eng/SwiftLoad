@@ -1,0 +1,93 @@
+<section class="auth-page">
+  <div class="auth-container">
+
+    <button class="back-button" type="button" (click)="irALogin.emit()">
+      <ion-icon name="arrow-back-outline"></ion-icon>
+      Volver al inicio de sesión
+    </button>
+
+    <div class="auth-logo">
+  <img src="assets/img/logo-icono.png" alt="SwiftLoad" />
+</div>
+
+    <p class="eyebrow">ÚNETE A SWIFTLOAD</p>
+    <h1>Crea tu cuenta</h1>
+    <p class="auth-description">
+      Regístrate para comenzar a gestionar tus envíos.
+    </p>
+
+    <form (ngSubmit)="enviar()">
+      <div class="form-field">
+        <ion-label>Nombre completo</ion-label>
+        <ion-item lines="none" class="input-item">
+          <ion-icon slot="start" name="person-outline"></ion-icon>
+          <ion-input
+            type="text"
+            name="nombreRegistro"
+            [(ngModel)]="nombre"
+            placeholder="Tu nombre completo"
+            autocomplete="name"
+            required>
+          </ion-input>
+        </ion-item>
+      </div>
+
+      <div class="form-field">
+        <ion-label>Correo electrónico</ion-label>
+        <ion-item lines="none" class="input-item">
+          <ion-icon slot="start" name="mail-outline"></ion-icon>
+          <ion-input
+            type="email"
+            name="correoRegistro"
+            [(ngModel)]="correo"
+            placeholder="tucorreo@ejemplo.com"
+            autocomplete="email"
+            required>
+          </ion-input>
+        </ion-item>
+      </div>
+
+      <div class="form-field">
+        <ion-label>Contraseña</ion-label>
+        <ion-item lines="none" class="input-item">
+          <ion-icon slot="start" name="lock-closed-outline"></ion-icon>
+          <ion-input
+            type="password"
+            name="contrasenaRegistro"
+            [(ngModel)]="contrasena"
+            placeholder="Mínimo 8 caracteres"
+            autocomplete="new-password"
+            required>
+          </ion-input>
+        </ion-item>
+      </div>
+
+      <div class="form-field">
+        <ion-label>Confirmar contraseña</ion-label>
+        <ion-item lines="none" class="input-item">
+          <ion-icon slot="start" name="shield-checkmark-outline"></ion-icon>
+          <ion-input
+            type="password"
+            name="confirmarContrasena"
+            [(ngModel)]="confirmarContrasena"
+            placeholder="Repite tu contraseña"
+            autocomplete="new-password"
+            required>
+          </ion-input>
+        </ion-item>
+      </div>
+
+      <p *ngIf="mensajeError" class="error-message">{{ mensajeError }}</p>
+
+      <ion-button type="submit" expand="block" shape="round" class="primary-button auth-submit">
+        Crear cuenta
+        <ion-icon slot="end" name="create-outline"></ion-icon>
+      </ion-button>
+    </form>
+
+    <div class="auth-switch">
+      ¿Ya tienes una cuenta?
+      <button type="button" (click)="irALogin.emit()">Inicia sesión</button>
+    </div>
+  </div>
+</section>

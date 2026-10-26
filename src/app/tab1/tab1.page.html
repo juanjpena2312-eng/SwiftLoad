@@ -1,17 +1,80 @@
-<ion-header [translucent]="true">
+<ion-header class="app-header ion-no-border">
   <ion-toolbar>
-    <ion-title>
-      Tab 1
-    </ion-title>
+    <img slot="start" class="header-logo" src="assets/logo-completo.png" alt="SwiftLoad" />
+
+    <ion-button
+      *ngIf="hayUsuario"
+      slot="end"
+      fill="clear"
+      color="primary"
+      (click)="cerrarSesion()">
+      Salir
+    </ion-button>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 1</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content [fullscreen]="true" class="swiftload-content">
 
-  <app-explore-container name="Tab 1 page"></app-explore-container>
+  <app-welcome
+    *ngIf="pantalla === 'bienvenida'"
+    (comenzar)="comenzar()">
+  </app-welcome>
+
+  <app-login
+    *ngIf="pantalla === 'login'"
+    [mensajeError]="mensajeError"
+    (ingresar)="iniciarSesion($event)"
+    (volver)="volverBienvenida()"
+    (irARegistro)="mostrarRegistro()">
+  </app-login>
+
+  <app-registrar
+    *ngIf="pantalla === 'registro'"
+    [mensajeError]="mensajeError"
+    (registrar)="registrarUsuario($event)"
+    (irALogin)="mostrarLogin()">
+  </app-registrar>
+
+  <app-home
+    *ngIf="pantalla === 'inicio'"
+    [nombreUsuario]="nombreUsuario"
+    [categorias]="categorias"
+    [mensajeError]="mensajeError"
+    (categoriaSeleccionada)="seleccionarCategoria($event)">
+  </app-home>
+
+  <app-subcategorias
+    *ngIf="pantalla === 'subcategorias'"
+    [categoria]="categoriaPadre"
+    [subcategorias]="subcategorias"
+    [cargando]="cargandoSub"
+    [error]="errorSub"
+    (volver)="volverDesdeSubcategorias()"
+    (seleccionar)="seleccionarSubcategoria($event)">
+  </app-subcategorias>
+
+  <app-restaurantes
+    *ngIf="pantalla === 'restaurantes'"
+    [subcategoria]="subActual"
+    [restaurantes]="restaurantes"
+    [cargando]="cargandoRest"
+    [error]="errorRest"
+    (volver)="volverDesdeRestaurantes()"
+    (seleccionar)="seleccionarRestaurante($event)">
+  </app-restaurantes>
+
+  <app-productos
+    *ngIf="pantalla === 'productos'"
+    [categoria]="categoriaActual"
+    [restaurante]="restauranteActual"
+    [productos]="productos"
+    [resenas]="resenas"
+    [cargando]="cargandoProductos"
+    [error]="errorProductos"
+    [cantidadCarrito]="carrito.length"
+    (volver)="volverDesdeProductos()"
+    (agregar)="agregarAlCarrito($event)"
+    (enviarResena)="publicarResena($event)">
+  </app-productos>
+
 </ion-content>

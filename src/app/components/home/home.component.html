@@ -1,0 +1,67 @@
+<section class="home-page">
+
+  <div class="home-welcome">
+    <div>
+      <p class="eyebrow">TU CENTRO DE ENVÍOS</p>
+      <h1>¡Hola, {{ nombreUsuario }}! 👋</h1>
+      <p class="home-subtitle">¿Qué necesitas enviar o consultar hoy?</p>
+    </div>
+
+    <div class="home-avatar">
+      <ion-icon name="person-outline"></ion-icon>
+    </div>
+  </div>
+
+  <div class="search-section">
+    <h2>¿Qué estás buscando?</h2>
+
+    <ion-searchbar
+      class="swift-search"
+      [(ngModel)]="textoBusqueda"
+      placeholder="Busca paquetes, envíos..."
+      show-clear-button="focus"
+      [animated]="true">
+    </ion-searchbar>
+  </div>
+
+  <div class="section-heading">
+    <div>
+      <h2>Categorías</h2>
+      <p>Explora nuestros servicios</p>
+    </div>
+  </div>
+
+  <ion-grid class="category-grid">
+    <ion-row>
+      <ion-col size="6" size-md="4" *ngFor="let categoria of categoriasFiltradas">
+        <app-category-card
+          [categoria]="categoria"
+          (seleccionar)="categoriaSeleccionada.emit($event)">
+        </app-category-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <div *ngIf="categoriasFiltradas.length === 0" class="empty-search">
+    <ion-icon name="search-outline"></ion-icon>
+    <h3>No encontramos resultados</h3>
+    <p>Prueba con otra palabra.</p>
+  </div>
+
+  <p *ngIf="mensajeError" class="info-message">{{ mensajeError }}</p>
+
+  <div class="help-banner">
+    <div class="help-icon">
+      <ion-icon name="location-outline"></ion-icon>
+    </div>
+    <div>
+      <h3>Tu envío bajo control</h3>
+      <p>Accede a tus paquetes y consulta su información.</p>
+    </div>
+  </div>
+
+  <footer class="home-footer">
+    SwiftLoad · Tus envíos, más fáciles.
+  </footer>
+
+</section>
