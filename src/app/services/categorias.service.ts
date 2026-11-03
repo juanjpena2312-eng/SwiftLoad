@@ -14,6 +14,8 @@ export interface Producto {
   precio: number;
   stock: number;
   imagen?: string | null;
+  descripcion?: string | null;
+  estado?: string | null;
 }
 
 export interface Subcategoria {
@@ -54,9 +56,7 @@ export class CategoriasService {
     );
   }
 
-  obtenerSubcategorias(
-    categoriaId: number
-  ): Promise<Subcategoria[]> {
+  obtenerSubcategorias(categoriaId: number): Promise<Subcategoria[]> {
     return firstValueFrom(
       this.http.get<Subcategoria[]>(
         `${API}/categorias/${categoriaId}/subcategorias`
@@ -72,9 +72,7 @@ export class CategoriasService {
     );
   }
 
-  obtenerProductosSubcategoria(
-    subcategoriaId: number
-  ): Promise<Producto[]> {
+  obtenerProductosSubcategoria(subcategoriaId: number): Promise<Producto[]> {
     return firstValueFrom(
       this.http.get<Producto[]>(
         `${API}/subcategorias/${subcategoriaId}/productos`
@@ -82,9 +80,7 @@ export class CategoriasService {
     );
   }
 
-  obtenerRestaurantes(
-    subcategoriaId: number
-  ): Promise<Restaurante[]> {
+  obtenerRestaurantes(subcategoriaId: number): Promise<Restaurante[]> {
     return firstValueFrom(
       this.http.get<Restaurante[]>(
         `${API}/subcategorias/${subcategoriaId}/restaurantes`
