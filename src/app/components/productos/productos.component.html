@@ -1,4 +1,9 @@
-<section class="productos-page">
+
+<section
+  class="productos-page"
+  [class.bebidas-page]="categoria?.id === 2"
+  [class.supermercado-page]="categoria?.id === 3"
+>
 
   <button class="back-button" type="button" (click)="volver.emit()">
     <ion-icon name="arrow-back-outline"></ion-icon>
@@ -64,6 +69,14 @@
       <div class="cat-texto">
         <h2>{{ categoria.nombre }}</h2>
         <p>{{ categoria.descripcion }}</p>
+
+        <p class="categoria-tipo" *ngIf="categoria.id === 2">
+          Bebidas disponibles para tu pedido
+        </p>
+
+        <p class="categoria-tipo" *ngIf="categoria.id === 3">
+          Productos de supermercado
+        </p>
       </div>
 
       <div class="cart-pill" *ngIf="cantidadCarrito > 0">
@@ -76,6 +89,7 @@
   <p *ngIf="cargando" class="estado">Cargando...</p>
   <p *ngIf="error" class="error-message">{{ error }}</p>
 
+  <!-- Mensaje cuando no hay productos -->
   <div
     *ngIf="!cargando && !error && productos.length === 0"
     class="vacio"
@@ -92,6 +106,7 @@
       *ngFor="let p of productos"
       [style.--cat-color]="categoria?.color"
     >
+
       <div class="producto-foto">
         <ion-icon [name]="categoria?.icono || 'cube-outline'"></ion-icon>
 
@@ -106,12 +121,28 @@
       <div class="producto-info">
         <h3>{{ p.nombre }}</h3>
 
+        <!-- Descripción del producto -->
+        <p class="producto-descripcion" *ngIf="p.descripcion">
+          {{ p.descripcion }}
+        </p>
+
+        <!-- Precio -->
         <span class="precio">
           {{ p.precio | currency:'USD':'symbol':'1.2-2' }}
         </span>
 
-        <span class="stock" [class.agotado]="p.stock === 0">
-          {{ p.stock > 0 ? p.stock + ' disponibles' : 'Agotado' }}
+        <!-- Existencias -->
+        <span class="stock">
+          Existencias: {{ p.stock }}
+        </span>
+
+        <!-- Estado del producto -->
+        <span
+          class="estado-producto"
+          [class.disponible]="p.stock > 0"
+          [class.agotado]="p.stock <= 0"
+        >
+          {{ p.estado || (p.stock > 0 ? 'Disponible' : 'Agotado') }}
         </span>
       </div>
 
@@ -119,11 +150,12 @@
         class="btn-agregar"
         shape="round"
         size="small"
-        [disabled]="p.stock === 0"
+        [disabled]="p.stock <= 0"
         (click)="agregar.emit(p)"
       >
         <ion-icon slot="icon-only" name="add-outline"></ion-icon>
       </ion-button>
+
     </article>
   </div>
 
