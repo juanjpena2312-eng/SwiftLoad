@@ -1,0 +1,118 @@
+
+<div class="ayuda-contenido">
+
+  <div class="boton-volver">
+    <ion-button fill="clear" (click)="volver.emit()">
+      <ion-icon name="arrow-back-outline" slot="start"></ion-icon>
+      Volver a Inicio
+    </ion-button>
+  </div>
+
+  <div class="ayuda-banner">
+    <ion-icon name="help-circle-outline"></ion-icon>
+    <h1>¿En qué podemos ayudarte?</h1>
+    <p>En SwiftLoad estamos para ayudarte con tus pedidos y consultas.</p>
+  </div>
+
+  <section class="seccion-ayuda">
+    <h2>Preguntas frecuentes</h2>
+
+    <ion-accordion-group>
+
+      <ion-accordion value="pedido">
+        <ion-item slot="header">
+          <ion-label>¿Cómo puedo realizar un pedido?</ion-label>
+        </ion-item>
+        <div class="respuesta" slot="content">
+          Ingresa a la categoría que deseas, selecciona tus productos
+          y sigue las indicaciones para completar tu pedido.
+        </div>
+      </ion-accordion>
+
+      <ion-accordion value="rastreo">
+        <ion-item slot="header">
+          <ion-label>¿Cómo puedo rastrear mi pedido?</ion-label>
+        </ion-item>
+        <div class="respuesta" slot="content">
+          Ingresa a la opción de rastrear pedido para consultar
+          el estado de tu envío.
+        </div>
+      </ion-accordion>
+
+      <ion-accordion value="cuenta">
+        <ion-item slot="header">
+          <ion-label>¿Cómo puedo actualizar mi cuenta?</ion-label>
+        </ion-item>
+        <div class="respuesta" slot="content">
+          Dirígete a la sección Perfil para consultar las opciones
+          disponibles de tu cuenta.
+        </div>
+      </ion-accordion>
+
+      <ion-accordion value="problema">
+        <ion-item slot="header">
+          <ion-label>¿Qué hago si tengo un problema con mi pedido?</ion-label>
+        </ion-item>
+        <div class="respuesta" slot="content">
+          Puedes escribirnos mediante el formulario de asistencia
+          que encontrarás en esta misma sección.
+        </div>
+      </ion-accordion>
+
+    </ion-accordion-group>
+  </section>
+
+  <section class="seccion-ayuda">
+    <h2>Solicitar asistencia</h2>
+    <p>Completa el siguiente formulario para comunicarte con nuestro equipo.</p>
+
+    <ion-item>
+      <ion-input
+        label="Nombre"
+        labelPlacement="floating"
+        placeholder="Escribe tu nombre"
+        [(ngModel)]="nombre">
+      </ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-input
+        label="Correo electrónico"
+        labelPlacement="floating"
+        type="email"
+        placeholder="ejemplo@correo.com"
+        [(ngModel)]="correo">
+      </ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-textarea
+        label="Mensaje"
+        labelPlacement="floating"
+        placeholder="Describe tu consulta o problema"
+        rows="4"
+        [(ngModel)]="mensaje">
+      </ion-textarea>
+    </ion-item>
+
+    <ion-button expand="block" (click)="enviarSolicitud()">
+      <ion-icon name="send-outline" slot="start"></ion-icon>
+      Enviar solicitud
+    </ion-button>
+  </section>
+
+  <section class="contacto-ayuda">
+    <h2>Otros medios de contacto</h2>
+
+    <div class="contacto-item">
+      <ion-icon name="mail-outline"></ion-icon>
+      <span>Correo electrónico: soporte@swiftload.com</span>
+    </div>
+
+    <div class="contacto-item">
+      <ion-icon name="call-outline"></ion-icon>
+      <span>Atención al cliente</span>
+    </div>
+  </section>
+
+</div>

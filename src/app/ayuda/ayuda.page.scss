@@ -1,0 +1,164 @@
+
+.ayuda-contenido {
+  padding: 16px;
+  background: #f5f7fc;
+  min-height: 100%;
+  color: #0f1b3d;
+  font-family: inherit;
+}
+
+.boton-volver {
+  margin-bottom: 12px;
+
+  ion-button {
+    --color: #0f1b3d;
+    font-weight: 600;
+    text-transform: none;
+  }
+}
+
+.ayuda-banner {
+  background: linear-gradient(135deg, #0f1b3d, #1c315e);
+  color: #ffffff;
+  padding: 30px 20px;
+  border-radius: 18px;
+  text-align: center;
+  margin-bottom: 26px;
+  box-shadow: 0 6px 18px rgba(15, 27, 61, 0.12);
+
+  ion-icon {
+    font-size: 48px;
+    color: #ff5a1f;
+    margin-bottom: 8px;
+  }
+
+  h1 {
+    font-size: 22px;
+    font-weight: 700;
+    margin: 10px 0;
+  }
+
+  p {
+    font-size: 14px;
+    line-height: 1.5;
+    color: #e1e7f5;
+    margin-bottom: 0;
+  }
+}
+
+.seccion-ayuda {
+  margin-bottom: 28px;
+
+  h2 {
+    color: #0f1b3d;
+    font-size: 19px;
+    font-weight: 700;
+    margin: 0 0 15px;
+  }
+
+  p {
+    color: #667085;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  ion-accordion {
+    margin-bottom: 10px;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #ffffff;
+    box-shadow: 0 3px 10px rgba(15, 27, 61, 0.06);
+  }
+
+  ion-item {
+    --background: #ffffff;
+    --color: #0f1b3d;
+    --border-color: #edf0f5;
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .respuesta {
+    padding: 15px;
+    color: #667085;
+    font-size: 14px;
+    line-height: 1.6;
+    background: #ffffff;
+  }
+
+  ion-button {
+    --background: #ff5a1f;
+    --background-hover: #e94b14;
+    --color: #ffffff;
+    --border-radius: 12px;
+    margin-top: 18px;
+    height: 48px;
+    font-weight: 600;
+    text-transform: none;
+    box-shadow: 0 4px 10px rgba(255, 90, 31, 0.2);
+  }
+
+  ion-item:has(ion-input),
+  ion-item:has(ion-textarea) {
+    --background: #ffffff;
+    --border-color: #e5e9f2;
+    --border-radius: 10px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+  }
+
+  ion-input,
+  ion-textarea {
+    --color: #0f1b3d;
+    --placeholder-color: #98a2b3;
+    font-size: 14px;
+  }
+}
+
+.contacto-ayuda {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 16px;
+  margin-bottom: 25px;
+  box-shadow: 0 4px 14px rgba(15, 27, 61, 0.06);
+
+  h2 {
+    color: #0f1b3d;
+    font-size: 18px;
+    font-weight: 700;
+    margin: 0 0 10px;
+  }
+}
+
+.contacto-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 0;
+  color: #667085;
+  font-size: 13px;
+
+  ion-icon {
+    font-size: 22px;
+    color: #ff5a1f;
+    flex-shrink: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .ayuda-contenido {
+    padding: 12px;
+  }
+
+  .ayuda-banner {
+    padding: 25px 16px;
+
+    h1 {
+      font-size: 20px;
+    }
+  }
+
+  .seccion-ayuda h2 {
+    font-size: 18px;
+  }
+}
