@@ -1,6 +1,12 @@
+
 <ion-header class="app-header ion-no-border">
   <ion-toolbar>
-    <img slot="start" class="header-logo" src="assets/logo-completo.png" alt="SwiftLoad" />
+    <img
+      slot="start"
+      class="header-logo"
+      src="assets/logo-completo.png"
+      alt="SwiftLoad"
+    />
 
     <ion-button
       *ngIf="hayUsuario"
@@ -76,5 +82,10 @@
     (agregar)="agregarAlCarrito($event)"
     (enviarResena)="publicarResena($event)">
   </app-productos>
+
+  <app-ayuda
+    *ngIf="pantalla === 'ayuda'"
+    (volver)="volverDesdeAyuda()">
+  </app-ayuda>
 
 </ion-content>

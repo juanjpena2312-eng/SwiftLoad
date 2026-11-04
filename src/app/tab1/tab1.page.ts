@@ -1,3 +1,4 @@
+
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonHeader, IonToolbar, IonButton, IonContent } from '@ionic/angular';
@@ -12,16 +13,23 @@ import { SubcategoriasComponent } from '../components/subcategorias/subcategoria
 import { RestaurantesComponent } from '../components/restaurantes/restaurantes.component';
 import { ProductosComponent } from '../components/productos/productos.component';
 import { Categoria } from '../components/category-card/category-card.component';
+import { AyudaPage } from '../ayuda/ayuda.page';
+
 import { AuthService } from '../services/auth.service';
 import {
   CategoriasService, Producto, Resena, Restaurante, Subcategoria,
 } from '../services/categorias.service';
 
 type Pantalla =
-  | 'bienvenida' | 'login' | 'registro' | 'inicio'
-  | 'subcategorias' | 'restaurantes' | 'productos';
+  | 'bienvenida'
+  | 'login'
+  | 'registro'
+  | 'inicio'
+  | 'subcategorias'
+  | 'restaurantes'
+  | 'productos'
+  | 'ayuda';
 
-// Desde dónde se abrió la pantalla de productos (para el botón Volver)
 type Origen = 'inicio' | 'subcategorias' | 'restaurantes';
 
 @Component({
@@ -31,30 +39,37 @@ type Origen = 'inicio' | 'subcategorias' | 'restaurantes';
   standalone: true,
   imports: [
     CommonModule,
-    IonHeader, IonToolbar, IonButton, IonContent,
-    WelcomeComponent, LoginComponent, RegistrarComponent, HomeComponent,
-    SubcategoriasComponent, RestaurantesComponent, ProductosComponent, 
+    IonHeader,
+    IonToolbar,
+    IonButton,
+    IonContent,
+    WelcomeComponent,
+    LoginComponent,
+    RegistrarComponent,
+    HomeComponent,
+    SubcategoriasComponent,
+    RestaurantesComponent,
+    ProductosComponent,
+    AyudaPage
   ],
 })
 export class Tab1Page implements OnInit {
+
   pantalla: Pantalla = 'bienvenida';
   mensajeError = '';
   nombreUsuario = '';
   categorias: Categoria[] = [];
 
-  // Nivel 2: tipos (Pizzas, Hamburguesas...)
   categoriaPadre: Categoria | null = null;
   subcategorias: Subcategoria[] = [];
   cargandoSub = false;
   errorSub = '';
 
-  // Nivel 3: restaurantes
   subActual: Subcategoria | null = null;
   restaurantes: Restaurante[] = [];
   cargandoRest = false;
   errorRest = '';
 
-  // Nivel 4: productos y reseñas
   categoriaActual: Categoria | null = null;
   restauranteActual: Restaurante | null = null;
   productos: Producto[] = [];
@@ -73,11 +88,18 @@ export class Tab1Page implements OnInit {
   }
 
   get hayUsuario(): boolean {
-    return ['inicio', 'subcategorias', 'restaurantes', 'productos'].includes(this.pantalla);
+    return [
+      'inicio',
+      'subcategorias',
+      'restaurantes',
+      'productos',
+      'ayuda'
+    ].includes(this.pantalla);
   }
 
   ngOnInit() {
     const usuario = this.auth.obtenerSesion();
+
     if (usuario) {
       this.nombreUsuario = usuario.nombre;
       this.pantalla = 'inicio';
@@ -95,11 +117,26 @@ export class Tab1Page implements OnInit {
     }
   }
 
-  // ===== Navegación de acceso =====
-  comenzar()         { this.mensajeError = ''; this.pantalla = 'login'; }
-  volverBienvenida() { this.mensajeError = ''; this.pantalla = 'bienvenida'; }
-  mostrarLogin()     { this.mensajeError = ''; this.pantalla = 'login'; }
-  mostrarRegistro()  { this.mensajeError = ''; this.pantalla = 'registro'; }
+  // Navegación de acceso
+  comenzar() {
+    this.mensajeError = '';
+    this.pantalla = 'login';
+  }
+
+  volverBienvenida() {
+    this.mensajeError = '';
+    this.pantalla = 'bienvenida';
+  }
+
+  mostrarLogin() {
+    this.mensajeError = '';
+    this.pantalla = 'login';
+  }
+
+  mostrarRegistro() {
+    this.mensajeError = '';
+    this.pantalla = 'registro';
+  }
 
   async iniciarSesion(datos: { correo: string; contrasena: string }) {
     if (!datos.correo || !datos.contrasena) {
@@ -108,7 +145,11 @@ export class Tab1Page implements OnInit {
     }
 
     try {
-      const usuario = await this.auth.iniciarSesion(datos.correo.trim(), datos.contrasena);
+      const usuario = await this.auth.iniciarSesion(
+        datos.correo.trim(),
+        datos.contrasena
+      );
+
       this.auth.guardarSesion(usuario);
       this.nombreUsuario = usuario.nombre;
       this.mensajeError = '';
@@ -133,17 +174,24 @@ export class Tab1Page implements OnInit {
       this.mensajeError = 'Completa todos los campos.';
       return;
     }
+
     if (contrasena.length < 8) {
       this.mensajeError = 'La contraseña debe tener mínimo 8 caracteres.';
       return;
     }
+
     if (contrasena !== confirmarContrasena) {
       this.mensajeError = 'Las contraseñas no coinciden.';
       return;
     }
 
     try {
-      const usuario = await this.auth.registrar(nombre.trim(), correo.trim(), contrasena);
+      const usuario = await this.auth.registrar(
+        nombre.trim(),
+        correo.trim(),
+        contrasena
+      );
+
       this.auth.guardarSesion(usuario);
       this.nombreUsuario = usuario.nombre;
       this.mensajeError = '';
@@ -173,8 +221,14 @@ export class Tab1Page implements OnInit {
     this.pantalla = 'bienvenida';
   }
 
-  // ===== Nivel 2: categoría → tipos =====
+  // Categoría → tipos
   async seleccionarCategoria(categoria: Categoria) {
+
+    if (categoria.nombre.trim().toLowerCase() === 'ayuda') {
+      this.pantalla = 'ayuda';
+      return;
+    }
+
     if (!categoria.id) return;
 
     this.categoriaPadre = categoria;
@@ -184,13 +238,14 @@ export class Tab1Page implements OnInit {
     this.pantalla = 'subcategorias';
 
     try {
-      this.subcategorias = await this.categoriasService.obtenerSubcategorias(categoria.id);
+      this.subcategorias =
+        await this.categoriasService.obtenerSubcategorias(categoria.id);
 
-      // Si la categoría no tiene tipos, va directo a sus productos
       if (this.subcategorias.length === 0) {
         this.origenProductos = 'inicio';
         this.restauranteActual = null;
         this.resenas = [];
+
         await this.abrirProductos(categoria, () =>
           this.categoriasService.obtenerProductos(categoria.id!)
         );
@@ -204,7 +259,7 @@ export class Tab1Page implements OnInit {
     }
   }
 
-  // ===== Nivel 3: tipo → restaurantes =====
+  // Tipo → restaurantes
   async seleccionarSubcategoria(sub: Subcategoria) {
     this.subActual = sub;
     this.restaurantes = [];
@@ -213,13 +268,14 @@ export class Tab1Page implements OnInit {
     this.pantalla = 'restaurantes';
 
     try {
-      this.restaurantes = await this.categoriasService.obtenerRestaurantes(sub.id);
+      this.restaurantes =
+        await this.categoriasService.obtenerRestaurantes(sub.id);
 
-      // Si el tipo no tiene restaurantes, muestra sus productos directamente
       if (this.restaurantes.length === 0) {
         this.origenProductos = 'subcategorias';
         this.restauranteActual = null;
         this.resenas = [];
+
         await this.abrirProductos(this.visualDeSub(sub), () =>
           this.categoriasService.obtenerProductosSubcategoria(sub.id)
         );
@@ -233,11 +289,14 @@ export class Tab1Page implements OnInit {
     }
   }
 
-  // ===== Nivel 4: restaurante → menú + reseñas =====
+  // Restaurante → menú y reseñas
   async seleccionarRestaurante(restaurante: Restaurante) {
     this.restauranteActual = restaurante;
     this.origenProductos = 'restaurantes';
-    this.categoriaActual = this.subActual ? this.visualDeSub(this.subActual) : null;
+    this.categoriaActual = this.subActual
+      ? this.visualDeSub(this.subActual)
+      : null;
+
     this.productos = [];
     this.resenas = [];
     this.errorProductos = '';
@@ -249,6 +308,7 @@ export class Tab1Page implements OnInit {
         this.categoriasService.obtenerMenu(restaurante.id),
         this.categoriasService.obtenerResenas(restaurante.id),
       ]);
+
       this.productos = menu;
       this.resenas = resenas;
     } catch (error) {
@@ -260,22 +320,34 @@ export class Tab1Page implements OnInit {
     }
   }
 
-  async publicarResena(datos: { calificacion: number; comentario: string }) {
+  async publicarResena(datos: {
+    calificacion: number;
+    comentario: string;
+  }) {
     const usuario = this.auth.obtenerSesion();
     const restaurante = this.restauranteActual;
+
     if (!usuario || !restaurante) return;
 
     try {
       await this.categoriasService.crearResena(
-        restaurante.id, usuario.id, datos.calificacion, datos.comentario
+        restaurante.id,
+        usuario.id,
+        datos.calificacion,
+        datos.comentario
       );
 
-      this.resenas = await this.categoriasService.obtenerResenas(restaurante.id);
+      this.resenas =
+        await this.categoriasService.obtenerResenas(restaurante.id);
 
-      // Actualiza la nota promedio mostrada
       if (this.subActual) {
-        this.restaurantes = await this.categoriasService.obtenerRestaurantes(this.subActual.id);
-        const actualizado = this.restaurantes.find(r => r.id === restaurante.id);
+        this.restaurantes =
+          await this.categoriasService.obtenerRestaurantes(this.subActual.id);
+
+        const actualizado = this.restaurantes.find(
+          r => r.id === restaurante.id
+        );
+
         if (actualizado) this.restauranteActual = actualizado;
       }
     } catch (error) {
@@ -290,7 +362,9 @@ export class Tab1Page implements OnInit {
     return {
       id: sub.id,
       nombre: sub.nombre,
-      descripcion: this.categoriaPadre ? `Dentro de ${this.categoriaPadre.nombre}` : '',
+      descripcion: this.categoriaPadre
+        ? `Dentro de ${this.categoriaPadre.nombre}`
+        : '',
       icono: sub.icono,
       color: sub.color,
     };
@@ -317,10 +391,22 @@ export class Tab1Page implements OnInit {
     }
   }
 
-  // ===== Botones Volver =====
-  volverDesdeSubcategorias() { this.pantalla = 'inicio'; }
-  volverDesdeRestaurantes()  { this.pantalla = 'subcategorias'; }
-  volverDesdeProductos()     { this.pantalla = this.origenProductos; }
+  // Botones Volver
+  volverDesdeSubcategorias() {
+    this.pantalla = 'inicio';
+  }
+
+  volverDesdeRestaurantes() {
+    this.pantalla = 'subcategorias';
+  }
+
+  volverDesdeProductos() {
+    this.pantalla = this.origenProductos;
+  }
+
+  volverDesdeAyuda() {
+    this.pantalla = 'inicio';
+  }
 
   agregarAlCarrito(producto: Producto) {
     this.carrito.push(producto);
