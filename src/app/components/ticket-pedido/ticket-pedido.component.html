@@ -1,0 +1,159 @@
+<div class="ticket-wrapper">
+
+  <!-- Botón superior para regresar -->
+  <button
+    type="button"
+    class="btn-volver"
+    (click)="volver.emit()">
+    ← Volver
+  </button>
+
+  <br><br>
+
+  <div class="ticket-container" #ticketContainer>
+
+    <!-- Encabezado -->
+    <div class="ticket-header">
+      <h2>SwiftLoad</h2>
+      <p>Comprobante de Gasto</p>
+      <span class="ticket-fecha">
+        {{ pedido?.creado_en | date:'dd/MM/yyyy HH:mm' }}
+      </span>
+    </div>
+
+    <br><br>
+
+    <!-- Información -->
+    <div class="ticket-info">
+      <p>
+        <strong>Orden:</strong>
+        #{{ pedido?.numero_orden || pedido?.id || 'SW4S1' }}
+      </p>
+
+      <p>
+        <strong>Establecimiento:</strong>
+        {{ pedido?.restaurante || 'Dominos Pizza' }}
+      </p>
+
+      <p>
+        <strong>Estado:</strong>
+        <span class="badge-estado">
+          {{ pedido?.estado || 'Pendiente' }}
+        </span>
+      </p>
+    </div>
+
+    <br><br>
+
+    <div class="ticket-divider"></div>
+
+    <br><br>
+
+    <!-- Productos -->
+    <div class="ticket-items">
+
+      <div class="ticket-fila titulo">
+        <span>Cant. / Producto</span>
+        <span>Subtotal</span>
+      </div>
+
+      @if (pedido?.items && pedido.items.length > 0) {
+
+        @for (item of pedido.items; track $index) {
+
+          <div class="ticket-fila">
+            <span>
+              {{ item.cantidad }}× {{ item.nombre }}
+            </span>
+
+            <span>
+              ${{ (item.precio * item.cantidad) | number:'1.2-2' }}
+            </span>
+          </div>
+
+        }
+
+      } @else {
+
+        <div class="ticket-fila">
+          <span>2× Doble Whopper</span>
+          <span>$16.50</span>
+        </div>
+
+        <div class="ticket-fila">
+          <span>1× Pizza Extravaganza</span>
+          <span>$18.50</span>
+        </div>
+
+      }
+
+    </div>
+
+    <br><br>
+
+    <div class="ticket-divider"></div>
+
+    <br><br>
+
+    <!-- Totales -->
+    <div class="ticket-totales">
+
+      <div class="fila-total">
+        <span>Subtotal:</span>
+        <span>
+          ${{ (pedido?.total || 35.00) | number:'1.2-2' }}
+        </span>
+      </div>
+
+      <div class="fila-total">
+        <span>Envío:</span>
+        <span>$0.00</span>
+      </div>
+
+      <div class="fila-total final">
+        <span>TOTAL GASTADO:</span>
+        <span>
+          ${{ (pedido?.total || 35.00) | number:'1.2-2' }}
+        </span>
+      </div>
+
+    </div>
+
+    <br><br>
+
+    <div class="ticket-divider"></div>
+
+    <br><br>
+
+    <!-- Pie -->
+    <div class="ticket-footer">
+      <p>¡Gracias por tu compra en SwiftLoad!</p>
+      <small>
+        Guarda este comprobante para cualquier aclaración.
+      </small>
+    </div>
+
+  </div>
+
+  <br><br>
+
+  <!-- Botón Descargar PDF -->
+  <div class="ticket-acciones">
+
+    <ion-button
+      expand="block"
+      class="btn-imprimir"
+      (click)="imprimirTicket()">
+
+      <ion-icon
+        name="print-outline"
+        slot="start">
+      </ion-icon>
+
+      Descargar Ticket PDF
+
+    </ion-button>
+
+  </div>
+
+</div>

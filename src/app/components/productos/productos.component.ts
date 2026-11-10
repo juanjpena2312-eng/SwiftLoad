@@ -1,3 +1,4 @@
+
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -32,6 +33,7 @@ import {
 } from 'ionicons/icons';
 
 import { Categoria } from '../category-card/category-card.component';
+
 import {
   Producto,
   Restaurante,
@@ -46,6 +48,7 @@ import {
   styleUrls: ['./productos.component.scss']
 })
 export class ProductosComponent {
+
   @Input() categoria: Categoria | null = null;
   @Input() restaurante: Restaurante | null = null;
   @Input() productos: Producto[] = [];
@@ -63,6 +66,7 @@ export class ProductosComponent {
   }>();
 
   estrellas = [1, 2, 3, 4, 5];
+
   nuevaCalificacion = 0;
   nuevoComentario = '';
   errorResena = '';
@@ -98,9 +102,31 @@ export class ProductosComponent {
     });
   }
 
-  // Método especial para la imagen del restaurante en la cabecera
-  obtenerImagenRestaurante(restaurante: Restaurante | null): string {
-    if (!restaurante || !restaurante.imagen || !restaurante.imagen.trim()) {
+  // Separar productos de comida
+  get productosComida(): Producto[] {
+    return this.productos.filter(p => {
+      const tipo = (p as any).tipo;
+      return tipo === 'comida' || !tipo;
+    });
+  }
+
+  // Separar productos de bebidas
+  get productosBebidas(): Producto[] {
+    return this.productos.filter(
+      p => (p as any).tipo === 'bebida'
+    );
+  }
+
+  // Imagen del restaurante
+  obtenerImagenRestaurante(
+    restaurante: Restaurante | null
+  ): string {
+
+    if (
+      !restaurante ||
+      !restaurante.imagen ||
+      !restaurante.imagen.trim()
+    ) {
       return this.imagenPredeterminada;
     }
 
@@ -109,6 +135,7 @@ export class ProductosComponent {
     if (nombre.startsWith('/assets/')) {
       return nombre.substring(1);
     }
+
     if (nombre.startsWith('assets/')) {
       return nombre;
     }
@@ -116,8 +143,11 @@ export class ProductosComponent {
     return `assets/Restaurantes/${nombre.replace(/^\/+/, '')}`;
   }
 
-  // Método para los productos individuales de la lista
-  obtenerImagenProducto(imagen: string | null | undefined): string {
+  // Imagen de los productos
+  obtenerImagenProducto(
+    imagen: string | null | undefined
+  ): string {
+
     if (!imagen || !imagen.trim()) {
       return this.imagenPredeterminada;
     }
@@ -127,6 +157,7 @@ export class ProductosComponent {
     if (nombre.startsWith('/assets/')) {
       return nombre.substring(1);
     }
+
     if (nombre.startsWith('assets/')) {
       return nombre;
     }
@@ -134,18 +165,25 @@ export class ProductosComponent {
     return `assets/Productos/${nombre.replace(/^\/+/, '')}`;
   }
 
+  // Imagen predeterminada cuando falla la carga
   ocultarImagen(evento: Event): void {
+
     const elemento = evento.target as HTMLImageElement;
+
     elemento.onerror = null;
     elemento.src = this.imagenPredeterminada;
   }
 
+  // Seleccionar calificación
   elegirEstrellas(valor: number): void {
+
     this.nuevaCalificacion = valor;
     this.errorResena = '';
   }
 
+  // Publicar reseña
   publicar(): void {
+
     if (this.nuevaCalificacion < 1) {
       this.errorResena = 'Elige de 1 a 5 estrellas.';
       return;

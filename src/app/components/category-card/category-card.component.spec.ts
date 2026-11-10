@@ -9,6 +9,12 @@ describe('CategoryCardComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CategoryCardComponent);
     component = fixture.componentInstance;
+    fixture.componentRef.setInput('categoria', {
+      nombre: 'Comida',
+      descripcion: 'Explora opciones',
+      icono: 'restaurant-outline',
+      color: '#1769ff'
+    });
     fixture.detectChanges();
   });
 

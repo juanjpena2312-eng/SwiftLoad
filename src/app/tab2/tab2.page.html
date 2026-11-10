@@ -1,17 +1,22 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-title>
-      Tab 2
-    </ion-title>
+    <ion-title>Mis envíos</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 2</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-  <app-explore-container name="Tab 2 page"></app-explore-container>
+<ion-content class="envios-content">
+  @if (hayUsuario) {
+    <app-historial
+      [pedidos]="pedidos"
+      [cargando]="cargando"
+      [error]="error"
+      (volver)="irAInicio()">
+    </app-historial>
+  } @else {
+    <section class="sesion-requerida">
+      <h1>Inicia sesión para ver tus envíos</h1>
+      <p>Al entrar a tu cuenta podrás revisar tus pedidos y su estado.</p>
+      <ion-button (click)="iniciarSesion()">Ir a Inicio</ion-button>
+    </section>
+  }
 </ion-content>

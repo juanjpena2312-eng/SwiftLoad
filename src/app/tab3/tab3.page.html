@@ -1,17 +1,100 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-title>
-      Tab 3
-    </ion-title>
+    <ion-title>Mi perfil</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 3</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content class="perfil-content">
+  <div class="perfil-superior">
+    <div class="avatar">{{ iniciales }}</div>
+    <h1>{{ usuario?.nombre || 'Usuario' }}</h1>
+    <p>{{ usuario?.correo || 'Sin correo registrado' }}</p>
+    <ion-badge color="success">Cuenta activa</ion-badge>
+  </div>
 
-  <app-explore-container name="Tab 3 page"></app-explore-container>
+  <ion-card class="datos-card">
+    <ion-card-header>
+      <ion-card-title>Información personal</ion-card-title>
+      <ion-card-subtitle>Datos de tu cuenta SwiftLoad</ion-card-subtitle>
+    </ion-card-header>
+
+    <ion-card-content>
+      <div class="dato">
+        <ion-icon name="person-outline"></ion-icon>
+        <div>
+          <span>Nombre completo</span>
+          <strong>{{ usuario?.nombre || 'No disponible' }}</strong>
+        </div>
+      </div>
+
+      <div class="dato">
+        <ion-icon name="mail-outline"></ion-icon>
+        <div>
+          <span>Correo electrónico</span>
+          <strong>{{ usuario?.correo || 'No disponible' }}</strong>
+        </div>
+      </div>
+
+      <div class="dato">
+        <ion-icon name="finger-print-outline"></ion-icon>
+        <div>
+          <span>ID de usuario</span>
+          <strong>{{ usuario?.id ?? 'No disponible' }}</strong>
+        </div>
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+  @if (usuario) {
+    <div class="resenas-card">
+      <h3>¿Qué opinas de SwiftLoad?</h3>
+      <p>Tu opinión es importante para nosotros. Ayúdanos a mejorar tu experiencia.</p>
+
+      <div class="estrellas">
+        @for (estrella of estrellas; track estrella) {
+          <ion-button fill="clear" (click)="seleccionarCalificacion(estrella)">
+            <ion-icon [name]="estrella <= calificacion ? 'star' : 'star-outline'"></ion-icon>
+          </ion-button>
+        }
+      </div>
+
+      @if (calificacion > 0) {
+        <p class="calificacion-texto">
+          Has seleccionado {{ calificacion }} estrella{{ calificacion > 1 ? 's' : '' }}.
+        </p>
+      }
+
+      <ion-item>
+        <ion-textarea
+          label="Tu opinión"
+          labelPlacement="floating"
+          placeholder="Escribe tu comentario..."
+          [(ngModel)]="comentario"
+          rows="4"
+          maxlength="500">
+        </ion-textarea>
+      </ion-item>
+
+      <ion-button
+        expand="block"
+        class="boton-resena"
+        (click)="enviarResena()"
+        [disabled]="calificacion === 0 || comentario.trim().length === 0 || enviando">
+        {{ enviando ? 'Enviando...' : 'Enviar reseña' }}
+      </ion-button>
+
+      @if (mensaje) {
+        <p>{{ mensaje }}</p>
+      }
+    </div>
+  }
+
+  <ion-button expand="block" fill="outline" class="envios-btn" (click)="verEnvios()">
+    Ver mis envíos
+  </ion-button>
+
+  <ion-button expand="block" color="danger" class="cerrar-btn" (click)="cerrarSesion()">
+    <ion-icon name="log-out-outline" slot="start"></ion-icon>
+    Cerrar sesión
+  </ion-button>
 </ion-content>

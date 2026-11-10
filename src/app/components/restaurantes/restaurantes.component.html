@@ -41,7 +41,7 @@
       <p>No encontramos restaurantes en esta categoría.</p>
     </div>
 
-    <!-- Lista de restaurantes -->
+    <!-- Lista de restaurantes en Cuadrícula -->
     <div
       class="lista-restaurantes"
       *ngIf="!cargando && !error && restaurantes.length > 0"
@@ -55,20 +55,20 @@
         role="button"
       >
 
-        <!-- Imagen y tiempo -->
+        <!-- Contenedor fijo de Imagen para que no se deforme -->
         <div class="contenedor-imagen">
-  <img
-    [src]="obtenerImagen(restaurante)"
-    [alt]="restaurante.nombre"
-    loading="lazy"
-    (error)="ocultarImagen($event)"
-  />
+          <img
+            [src]="obtenerImagen(restaurante)"
+            [alt]="restaurante.nombre"
+            loading="lazy"
+            (error)="ocultarImagen($event)"
+          />
 
-  <span class="etiqueta-tiempo">
-    <ion-icon name="time-outline"></ion-icon>
-    {{ restaurante.tiempo_min }} min
-  </span>
-</div>
+          <span class="etiqueta-tiempo">
+            <ion-icon name="time-outline"></ion-icon>
+            {{ restaurante.tiempo_min }} min
+          </span>
+        </div>
 
         <!-- Información -->
         <div class="informacion">

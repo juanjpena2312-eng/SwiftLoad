@@ -1,0 +1,202 @@
+/* ================================================= */
+/* ESTILOS MODERNOS PARA EL PERFIL DE SWIFTLOAD     */
+/* ================================================= */
+
+.perfil-content {
+  --background: #f3f7fa;
+  padding: 16px;
+}
+
+/* Tarjeta superior de usuario */
+.perfil-superior {
+  background: linear-gradient(135deg, #16a085 0%, #1abc9c 100%);
+  color: white;
+  border-radius: 24px;
+  padding: 30px 20px;
+  text-align: center;
+  margin-bottom: 20px;
+  box-shadow: 0 8px 24px rgba(22, 160, 133, 0.25);
+
+  .avatar {
+    width: 80px;
+    height: 80px;
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(10px);
+    border: 3px solid rgba(255, 255, 255, 0.8);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    font-weight: 800;
+    color: white;
+    margin: 0 auto 14px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  h1 {
+    font-size: 22px;
+    font-weight: 700;
+    margin: 0 0 4px;
+  }
+
+  p {
+    font-size: 14px;
+    opacity: 0.9;
+    margin: 0 0 12px;
+  }
+
+  ion-badge {
+    padding: 6px 14px;
+    font-weight: 600;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.2) !important;
+    color: white !important;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+  }
+}
+
+/* Tarjetas de información personal */
+.datos-card {
+  background: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+  margin-bottom: 20px;
+  border: 1px solid #e8edf2;
+
+  ion-card-title {
+    font-size: 17px;
+    font-weight: 700;
+    color: #1e293b;
+  }
+
+  ion-card-subtitle {
+    font-size: 13px;
+    color: #64748b;
+  }
+
+  .dato {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 12px 0;
+    border-bottom: 1px solid #f1f5f9;
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    ion-icon {
+      font-size: 24px;
+      color: #16a085;
+      background: #e6f4f1;
+      padding: 10px;
+      border-radius: 12px;
+    }
+
+    span {
+      display: block;
+      font-size: 12px;
+      color: #94a3b8;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    strong {
+      font-size: 15px;
+      color: #334155;
+    }
+  }
+}
+
+/* Tarjeta de Reseñas / Calificación */
+.resenas-card {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 24px 20px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+  margin-bottom: 20px;
+  border: 1px solid #e8edf2;
+
+  h3 {
+    color: #1e293b;
+    font-size: 18px;
+    font-weight: 700;
+    margin: 0 0 6px;
+  }
+
+  p {
+    color: #64748b;
+    font-size: 13px;
+    line-height: 1.5;
+    margin: 0 0 16px;
+  }
+
+  .estrellas {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin: 15px 0;
+
+    ion-button {
+      --padding-start: 4px;
+      --padding-end: 4px;
+      margin: 0;
+    }
+
+    ion-icon {
+      font-size: 34px;
+      color: #f5b942;
+      transition: transform 0.2s ease;
+
+      &:hover {
+        transform: scale(1.15);
+      }
+    }
+  }
+
+  .calificacion-texto {
+    text-align: center;
+    font-weight: 600;
+    color: #16a085;
+    font-size: 13px;
+    margin-bottom: 12px;
+  }
+
+  ion-item {
+    --background: #f8fafc;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    margin-bottom: 16px;
+    --highlight-color-focused: #16a085;
+  }
+
+  .boton-resena {
+    --background: #16a085;
+    --border-radius: 12px;
+    font-weight: 600;
+    text-transform: none;
+    letter-spacing: 0.5px;
+    height: 48px;
+    box-shadow: 0 4px 12px rgba(22, 160, 133, 0.25);
+  }
+}
+
+/* Botones inferiores de acciones */
+.envios-btn {
+  --border-color: #cbd5e1;
+  --color: #334155;
+  --border-radius: 12px;
+  font-weight: 600;
+  text-transform: none;
+  height: 48px;
+  margin-bottom: 12px;
+}
+
+.cerrar-btn {
+  --border-radius: 12px;
+  font-weight: 600;
+  text-transform: none;
+  height: 48px;
+  margin-bottom: 24px;
+}

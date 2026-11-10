@@ -1,0 +1,124 @@
+<div class="detalle-container">
+  <!-- Botón superior para regresar -->
+  <button type="button" class="btn-volver" (click)="volver.emit()">
+    ← Volver a mis pedidos
+  </button>
+
+  <!-- Banner de estado del envío -->
+  <div class="estado-banner">
+    <div class="pedido-id-badge">
+      Pedido {{ pedido?.numero_orden ? '#' + pedido.numero_orden : '(# ' + (pedido?.id || 'SW4S1') + ')' }}
+    </div>
+    <h2>{{ pedido?.estado || 'En camino a tu dirección' }}</h2>
+    <p>Establecimiento: <strong>{{ pedido?.restaurante || 'Dominos Pizza' }}</strong></p>
+  </div>
+
+  <!-- Simulación visual de la ruta -->
+  <div class="mapa-card">
+    <div class="mapa-simulado">
+      <div class="punto origen">
+        <ion-icon name="storefront-outline"></ion-icon>
+        <span>Restaurante</span>
+      </div>
+      <div class="linea-ruta"></div>
+      <div class="punto destino activo">
+        <ion-icon name="navigate-outline"></ion-icon>
+        <span>Tu ubicación</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ticket de Compra detallado (Cuánto gastó) -->
+  <div class="ticket-card">
+    <div class="ticket-header">
+      <h3>Ticket de Compra</h3>
+      <span class="ticket-fecha">{{ pedido?.creado_en | date: 'dd/MM/yyyy HH:mm' }}</span>
+    </div>
+
+    <div class="lista-items">
+      @if (pedido?.items && pedido.items.length > 0) {
+        @for (item of pedido.items; track $index) {
+          <div class="item-fila">
+            <span>{{ item.cantidad }} × {{ item.nombre }}</span>
+            <strong>${{ (item.precio * item.cantidad) | number: '1.2-2' }}</strong>
+          </div>
+        }
+      } @else {
+        <div class="item-fila">
+          <span>2 × Doble Whopper</span>
+          <strong>$16.50</strong>
+        </div>
+        <div class="item-fila">
+          <span>1 × Pizza Extravaganza</span>
+          <strong>$18.50</strong>
+        </div>
+      }
+    </div>
+
+    <div class="ticket-totales">
+      <div class="fila-total">
+        <span>Subtotal:</span>
+        <span>${{ pedido?.total || 35.00 | number: '1.2-2' }}</span>
+      </div>
+      <div class="fila-total">
+        <span>Costo de envío:</span>
+        <span>$0.00</span>
+      </div>
+      <div class="fila-total final">
+        <span>TOTAL GASTADO:</span>
+        <span>${{ pedido?.total || 35.00 | number: '1.2-2' }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Línea de tiempo del progreso -->
+  <div class="timeline-card">
+    <h3>Progreso del envío</h3>
+    
+    <div class="timeline-step completado">
+      <div class="step-icon"><ion-icon name="checkmark-outline"></ion-icon></div>
+      <div class="step-info">
+        <strong>Pedido confirmado</strong>
+        <span>El establecimiento aceptó tu orden</span>
+      </div>
+    </div>
+
+    <div class="timeline-step completado">
+      <div class="step-icon"><ion-icon name="checkmark-outline"></ion-icon></div>
+      <div class="step-info">
+        <strong>En preparación</strong>
+        <span>Están empacando tus productos</span>
+      </div>
+    </div>
+
+    <div class="timeline-step activo">
+      <div class="step-icon"><ion-icon name="bicycle-outline"></ion-icon></div>
+      <div class="step-info">
+        <strong>Repartidor en camino</strong>
+        <span>Tu pedido va en ruta</span>
+      </div>
+    </div>
+
+    <div class="timeline-step">
+      <div class="step-icon"><ion-icon name="home-outline"></ion-icon></div>
+      <div class="step-info">
+        <strong>Entregado</strong>
+        <span>¡Disfruta tu pedido!</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Información del Repartidor -->
+  <div class="repartidor-card">
+    <div class="repartidor-info">
+      <div class="avatar-rep">CF</div>
+      <div>
+        <strong>Carlos Flores</strong>
+        <span>Repartidor asignado • Moto</span>
+      </div>
+    </div>
+    <ion-button fill="clear" class="btn-llamar">
+      <ion-icon name="call-outline" slot="icon-only"></ion-icon>
+    </ion-button>
+  </div>
+</div>

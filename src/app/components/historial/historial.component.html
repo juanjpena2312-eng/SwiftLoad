@@ -1,0 +1,40 @@
+<div class="pedido-card" (click)="irARastreo(pedido)">
+  <!-- Encabezado con ID y Estado -->
+  <div class="pedido-header">
+    <div class="codigo-local">
+      <h3>#SW4S1</h3>
+      <p>Dominos Pizza</p>
+    </div>
+    <div class="estado-badge">
+      <span class="badge pendiente">Pendiente</span>
+    </div>
+  </div>
+
+  <!-- Lista de productos -->
+  <div class="productos-lista">
+    <div class="producto-item">
+      <span>2 × Doble Whopper</span>
+      <span>$16.50</span>
+    </div>
+    <div class="producto-item">
+      <span>1 × Pizza Extravaganza</span>
+      <span>$18.50</span>
+    </div>
+  </div>
+
+  <!-- Total y pequeña pista visual para rastrear -->
+  <div class="pedido-footer">
+    <span class="ver-rastreo"><ion-icon name="navigate-outline"></ion-icon> Toca para rastrear</span>
+    <div class="total-box">
+      <span>Total:</span>
+      <strong>$35.00</strong>
+    </div>
+  </div>
+</div>
+<!-- ===== Historial de pedidos ===== -->
+  @if (pantalla === 'pedidos') {
+    <app-historial [pedidos]="pedidos" [cargando]="cargandoPedidos"
+      [error]="errorPedidos" (volver)="volverDesdePedidos()"
+      (verTicket)="verTicket($event)">
+    </app-historial>
+  }

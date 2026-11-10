@@ -15,4 +15,12 @@ describe('Tab1Page', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('returns to welcome when the session was closed from another tab', () => {
+    component.pantalla = 'inicio';
+
+    component.ionViewWillEnter();
+
+    expect(component.pantalla).toBe('bienvenida');
+  });
 });

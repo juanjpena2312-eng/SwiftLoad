@@ -1,0 +1,35 @@
+<div class="pedido-contenido">
+  <button type="button" class="pedido-volver" (click)="volver.emit()">
+    ← Seguir comprando
+  </button>
+
+  <h1 class="pedido-titulo">Tu pedido</h1>
+  <p class="pedido-sub" *ngIf="restaurante">{{ restaurante }}</p>
+
+  <div *ngIf="productos.length === 0" class="pedido-vacio">
+    <h3>Tu carrito está vacío</h3>
+    <p>Agrega productos para hacer tu pedido.</p>
+  </div>
+
+  <div *ngFor="let p of productos; let i = index" class="pedido-linea">
+    <div class="pedido-info">
+      <strong>{{ p.nombre }}</strong>
+      <small>${{ precio(p) | number: '1.2-2' }}</small>
+    </div>
+    <button type="button" class="pedido-quitar" (click)="quitar.emit(i)">
+      Quitar
+    </button>
+  </div>
+
+  <div *ngIf="productos.length > 0" class="pedido-resumen">
+    <div class="pedido-total">
+      <span>Total ({{ productos.length }} productos)</span>
+      <strong>${{ total | number: '1.2-2' }}</strong>
+    </div>
+    <button type="button" class="pedido-confirmar" (click)="confirmar.emit()">
+      Confirmar pedido
+    </button>
+  </div>
+
+  <p *ngIf="mensaje" class="pedido-mensaje">{{ mensaje }}</p>
+</div>

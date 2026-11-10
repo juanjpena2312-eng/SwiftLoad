@@ -1,80 +1,95 @@
-<ion-header class="app-header ion-no-border">
-  <ion-toolbar>
-    <img slot="start" class="header-logo" src="assets/logo-completo.png" alt="SwiftLoad" />
+@if (hayUsuario) {
+  <ion-header>
+    <ion-toolbar>
+      <div class="logo-container">
+        <img src="assets/logo-completo.png" alt="SwiftLoad" class="logo-img" />
+      </div>
+    </ion-toolbar>
+  </ion-header>
+}
 
-    <ion-button
-      *ngIf="hayUsuario"
-      slot="end"
-      fill="clear"
-      color="primary"
-      (click)="cerrarSesion()">
-      Salir
+<ion-content>
+  <!-- ===== Acceso ===== -->
+  @if (pantalla === 'bienvenida') {
+    <app-welcome (comenzar)="comenzar()"></app-welcome>
+  }
+
+  @if (pantalla === 'login') {
+    <app-login [mensajeError]="mensajeError" (ingresar)="iniciarSesion($event)"
+      (irARegistro)="mostrarRegistro()" (volver)="volverBienvenida()">
+    </app-login>
+  }
+
+  @if (pantalla === 'registro') {
+    <app-registrar [mensajeError]="mensajeError" (registrar)="registrarUsuario($event)"
+      (irALogin)="mostrarLogin()">
+    </app-registrar>
+  }
+
+  <!-- ===== Inicio ===== -->
+  @if (pantalla === 'inicio') {
+    <app-home [nombreUsuario]="nombreUsuario" [categorias]="categorias"
+      [mensajeError]="mensajeError" (categoriaSeleccionada)="seleccionarCategoria($event)">
+    </app-home>
+  }
+
+  <!-- ===== Nivel 2: tipos ===== -->
+  @if (pantalla === 'subcategorias') {
+    <app-subcategorias [categoria]="categoriaPadre" [subcategorias]="subcategorias"
+      [cargando]="cargandoSub" [error]="errorSub" (seleccionar)="seleccionarSubcategoria($event)"
+      (volver)="volverDesdeSubcategorias()">
+    </app-subcategorias>
+  }
+
+  <!-- ===== Nivel 3: restaurantes ===== -->
+  @if (pantalla === 'restaurantes') {
+    <app-restaurantes [subcategoria]="subActual" [restaurantes]="restaurantes"
+      [cargando]="cargandoRest" [error]="errorRest" (seleccionar)="seleccionarRestaurante($event)"
+      (volver)="volverDesdeRestaurantes()">
+    </app-restaurantes>
+  }
+
+  <!-- ===== Nivel 4: productos ===== -->
+  @if (pantalla === 'productos') {
+    <app-productos [categoria]="categoriaActual" [restaurante]="restauranteActual"
+      [productos]="productos" [resenas]="resenas" [cargando]="cargandoProductos" [error]="errorProductos"
+      [cantidadCarrito]="carrito.length" (agregar)="agregarAlCarrito($event)" (enviarResena)="publicarResena($event)"
+      (volver)="volverDesdeProductos()">
+    </app-productos>
+  }
+
+  <!-- ===== Ver pedido ===== -->
+  @if (pantalla === 'productos' && carrito.length > 0) {
+    <ion-button expand="block" (click)="mostrarPedido()">
+      Ver pedido ({{ carrito.length }})
     </ion-button>
-  </ion-toolbar>
-</ion-header>
+  }
 
-<ion-content [fullscreen]="true" class="swiftload-content">
+  <!-- ===== Pedido actual ===== -->
+  @if (pantalla === 'pedido') {
+    <app-pedido [productos]="carrito" [restaurante]="restauranteActual?.nombre ?? ''"
+      [mensaje]="mensajePedido" (volver)="volverDesdePedido()" (quitar)="quitarDelCarrito($event)"
+      (confirmar)="confirmarPedido()">
+    </app-pedido>
+  }
 
-  <app-welcome
-    *ngIf="pantalla === 'bienvenida'"
-    (comenzar)="comenzar()">
-  </app-welcome>
+  <!-- ===== Historial de pedidos ===== -->
+  @if (pantalla === 'pedidos') {
+    <app-historial [pedidos]="pedidos" [cargando]="cargandoPedidos"
+      [error]="errorPedidos" (volver)="volverDesdePedidos()"
+      (verTicket)="verTicket($event)">
+    </app-historial>
+  }
 
-  <app-login
-    *ngIf="pantalla === 'login'"
-    [mensajeError]="mensajeError"
-    (ingresar)="iniciarSesion($event)"
-    (volver)="volverBienvenida()"
-    (irARegistro)="mostrarRegistro()">
-  </app-login>
-
-  <app-registrar
-    *ngIf="pantalla === 'registro'"
-    [mensajeError]="mensajeError"
-    (registrar)="registrarUsuario($event)"
-    (irALogin)="mostrarLogin()">
-  </app-registrar>
-
-  <app-home
-    *ngIf="pantalla === 'inicio'"
-    [nombreUsuario]="nombreUsuario"
-    [categorias]="categorias"
-    [mensajeError]="mensajeError"
-    (categoriaSeleccionada)="seleccionarCategoria($event)">
-  </app-home>
-
-  <app-subcategorias
-    *ngIf="pantalla === 'subcategorias'"
-    [categoria]="categoriaPadre"
-    [subcategorias]="subcategorias"
-    [cargando]="cargandoSub"
-    [error]="errorSub"
-    (volver)="volverDesdeSubcategorias()"
-    (seleccionar)="seleccionarSubcategoria($event)">
-  </app-subcategorias>
-
-  <app-restaurantes
-    *ngIf="pantalla === 'restaurantes'"
-    [subcategoria]="subActual"
-    [restaurantes]="restaurantes"
-    [cargando]="cargandoRest"
-    [error]="errorRest"
-    (volver)="volverDesdeRestaurantes()"
-    (seleccionar)="seleccionarRestaurante($event)">
-  </app-restaurantes>
-
-  <app-productos
-    *ngIf="pantalla === 'productos'"
-    [categoria]="categoriaActual"
-    [restaurante]="restauranteActual"
-    [productos]="productos"
-    [resenas]="resenas"
-    [cargando]="cargandoProductos"
-    [error]="errorProductos"
-    [cantidadCarrito]="carrito.length"
-    (volver)="volverDesdeProductos()"
-    (agregar)="agregarAlCarrito($event)"
-    (enviarResena)="publicarResena($event)">
-  </app-productos>
-
+  <!-- ===== Ticket / Comprobante de Gasto ===== -->
+  @if (pantalla === 'ticket') {
+    <app-ticket-pedido 
+      [pedido]="pedidoSeleccionado" 
+      (volver)="volverDesdeTicket()">
+    </app-ticket-pedido>
+  }
+  <!-- ===== Ayuda ===== -->
+  @if (pantalla === 'ayuda') {
+    <app-ayuda (volver)="volverDesdeAyuda()"></app-ayuda>
+  }
 </ion-content>
